@@ -79,4 +79,44 @@ class MatriculaEditar(BaseModel):
     aluno_id: int
     curso_id: int
     data_matricula: date
-    status: str 
+    status: str
+
+
+class ProgressoCriar(BaseModel):
+    matricula_id: int
+    aula_id: int
+    concluido: bool
+    data_concusao: date
+
+
+class ProgressoEditar(BaseModel):
+    matricula_id: int
+    aula_id: int
+    concluido: bool
+    data_concusao: date
+
+
+class AvaliacaoCriar(BaseModel):
+    curso_id: int
+    aluno_id: int
+    nota: float
+    comentario: str
+
+
+class AvaliacaoEditar(BaseModel):
+    curso_id: int
+    aluno_id: int
+    nota: float
+    comentario: str
+
+
+class CertificadoCriar(BaseModel):
+    matricula_id: int
+    data_emissao: date
+    codico_validacao: str
+
+
+class CertificadoEditar(BaseModel):
+    matricula_id: int
+    data_emissao: date
+    codico_validacao: str
