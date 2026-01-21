@@ -12,3 +12,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# @app.post("/api/v1/alunos", tags=["Alunos"])
+# def cadastrar_aluno(aluno: AlunoCriar, db: Session = Depends(get_db)):
+#     # aluno = 
