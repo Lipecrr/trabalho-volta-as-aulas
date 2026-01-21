@@ -4,27 +4,12 @@ from sqlalchemy.orm import declarative_base, relationship
 Base = declarative_base()
 
 
-class Usuario(Base):
-    __tablename__ = "usuarios"
-
-    id = Column(Integer, primary_key=True, index=True)
-    nome = Column(String(50), nullable=False)
-    email = Column(String(100), nullable=False)
-    senha = Column(String(50), nullable=False)
-    tipo = Column(String(20), nullable=False)
-
-    aluno = relationship("Aluno", back_populates="usuario")
-    professor = relationship("Professor", back_populates="usuario")
-
-
 class Aluno(Base):
     id = Column(Integer, primary_key=True, index=True)
-    usuario_id = Column(Integer, ForeignKey("usuarios.id"), nullable=False)
-    cpf = Column(String(14))
+    nome = Column(String(50))
     telefone = Column(String(20))
     data_nascimento = Column(Date)
 
-    usuario = relationship("Usuario", back_populates="aluno")
     matricula = relationship("Matricula", back_populates="aluno")
 
 
@@ -32,10 +17,11 @@ class Professor(Base):
     __tablename__ = "professores"
 
     id = Column(Integer, primary_key=True)
-    usuario_id = Column(Integer, ForeignKey("usuarios.id"), nullable=False)
+    nome = Column(String(50))
+    telefone = Column(String(20))
+    data_nascimento = Column(Date)
     especialidade = Column(String(20))
     
-    usuario = relationship("Usuario", back_populates="professor")
     cursos = relationship("Curso", back_populates="professor")
 
 
@@ -61,7 +47,6 @@ class Modulo(Base):
     id = Column(Integer, primary_key=True)
     curso_id = Column(Integer, ForeignKey("cursos.id"), nullable=False)
     titulo = Column(String(100), nullable=False)
-    ordem = Column(Integer)
 
     curso = relationship("Curso", back_populates="modulos")
     aulas = relationship("Aula", back_populates="modulo")
@@ -74,8 +59,7 @@ class Aula(Base):
     modulo_id = Column(Integer, ForeignKey("modulos.id"), nullable=False)
     titulo = Column(String(100), nullable=False)
     descricao = Column(String(500))
-    tipo = Column(String(20))
-    url_conteudo = Column(String(255))
+    tipo = Column(String(20)) # presencial, EAD, semipresencial, ...
 
     modulo = relationship("Modulo", back_populates="aulas")
     progressos = relationship("Progresso", back_populates="aula")
