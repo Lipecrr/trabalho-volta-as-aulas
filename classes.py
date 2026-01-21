@@ -5,7 +5,7 @@ from pydantic import BaseModel
 class AlunoCriar(BaseModel):
     nome: str
     telefone: str
-    data_nascimento = date
+    data_nascimento: date
 
 
 class AlunoEditar(BaseModel):
