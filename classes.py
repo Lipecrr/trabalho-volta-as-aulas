@@ -111,12 +111,14 @@ class AvaliacaoEditar(BaseModel):
 
 
 class CertificadoCriar(BaseModel):
+    aluno_id: int
     matricula_id: int
     data_emissao: date
     codico_validacao: str
 
 
 class CertificadoEditar(BaseModel):
+    aluno_id: int
     matricula_id: int
     data_emissao: date
     codico_validacao: str

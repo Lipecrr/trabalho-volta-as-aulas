@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from datetime import date
 from src.database.models import Aluno
 
-def cadastrar(db: Session, nome: str, telefone: str, data_nascimento = date):
+def cadastrar(db: Session, nome: str, telefone: str, data_nascimento: date):
     aluno = Aluno(
         nome=nome,
         telefone=telefone,
