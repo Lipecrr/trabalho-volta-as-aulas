@@ -122,3 +122,5 @@ class CertificadoEditar(BaseModel):
     matricula_id: int
     data_emissao: date
     codico_validacao: str
+
+    
