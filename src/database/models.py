@@ -109,6 +109,7 @@ class Certificado(Base):
     __tablename__ = "certificados"
 
     id = Column(Integer, primary_key=True)
+    aluno_id = Column(Integer, ForeignKey("alunos.id"), unique=True)
     matricula_id = Column(Integer, ForeignKey("matriculas.id"), unique=True)
     data_emissao = Column(Date)
     codigo_validacao = Column(String(100), unique=True)
