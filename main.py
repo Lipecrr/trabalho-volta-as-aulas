@@ -86,3 +86,53 @@ def listar_aluno(id: int, db: Session = Depends(get_db)):
     aluno = fjvcursos_aluno_repositorio.obter_por_id(db, id)
     if not aluno:
         raise HTTPException(status_code=404, detail="Aluno não encontrado")
+    
+
+@app.post("/api/v1/cursos", tags=["Cursos"])
+def cadastrar_curso(curso: CursoCriar, db: Session = Depends(get_db)):
+    aluno = fjvcursos_curso_repositorio.cadastrar(
+        db,
+        curso.titulo,
+        curso.descricao,
+        curso.professor_id, 
+        curso.carga_horaria,
+        curso.ativo
+    )
+    return curso
+
+
+@app.get("/api/v1/cursos", tags=["Cursos"])
+def listar_cursos(db: Session = Depends(get_db)):
+    cursos = fjvcursos_curso_repositorio.obter_todos(db)
+    return cursos
+
+
+@app.delete("/api/v1/cursos/{id}", tags=["Cursos"])
+def apagar_curso(id: int, db: Session = Depends(get_db)):
+    linhas_afetadas = fjvcursos_curso_repositorio.apagar(db, id)
+    if not linhas_afetadas:
+        raise HTTPException(status_code=404, detail="Curso não encontrado")
+    return {"status":"ok"}
+
+
+@app.put("/api/v1/cursos{id}", tags=["Cursos"])
+def editar_curso(id: int, curso: CursoEditar, db: Session = Depends(get_db)):
+    linhas_afetadas = fjvcursos_curso_repositorio.editar(
+        db,
+        id,
+        curso.titulo,
+        curso.descricao,
+        curso.professor_id, 
+        curso.carga_horaria,
+        curso.ativo
+    )
+    if not linhas_afetadas:
+        raise HTTPException(status_code=404, detail="Curso não encontrado")
+    return {"status": "ok"}
+
+
+@app.get("/api/v1/cursos/{id}", tags=["Cursos"])
+def listar_curso(id:int, db: Session = Depends(get_db)):
+    curso = fjvcursos_curso_repositorio.obter_por_id(db, id)
+    if not curso:
+        raise HTTPException(status_code=404, detail="Curso não encontrado")
