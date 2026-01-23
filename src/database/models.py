@@ -5,6 +5,7 @@ Base = declarative_base()
 
 
 class Aluno(Base):
+    __tablename__ = "alunos"
     id = Column(Integer, primary_key=True, index=True)
     nome = Column(String(50))
     telefone = Column(String(20))
