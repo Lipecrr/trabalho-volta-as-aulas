@@ -226,3 +226,45 @@ def editar_modulo(id: int, modulo: ModuloEditar, db: Session = Depends(get_db)):
     return {"status": "ok"}
 
 
+## Aula
+@app.post("/api/v1/aulas", tags=["Aulas"])
+def cadastar_aula(aula: AulaCriar, db: Session = Depends(get_db)):
+    aula = fjvcursos_aula_repositorio.cadastrar(
+        db,
+        aula.modulo_id,
+        aula.titulo,
+        aula.descricao,
+        aula.tipo,
+    )
+    return aula
+
+
+@app.get("/api/v1/aulas", tags=["Aulas"])
+def listar_aulas(db: Session = Depends(get_db)):
+    aulas = fjvcursos_aula_repositorio.obter_todos(db)
+    return aulas
+
+
+@app.delete("/api/v1/aulas/{id}", tags=["Aulas"])
+def apagar_aula(id: int, db: Session = Depends(get_db)):
+    linhas_afetadas = fjvcursos_aula_repositorio.apagar(db, id)
+    if not linhas_afetadas:
+        raise HTTPException(status_code=404, detail="Aula não encontrado")
+    return {"status:", "ok"}
+
+
+@app.put("/api/v1/aulas/{id}", tags=["Aulas"])
+def editar_modulo(id: int, aula: AulaEditar, db: Session = Depends(get_db)):
+    linhas_afetadas = fjvcursos_aula_repositorio.editar(
+        db,
+        id,
+        aula.modulo_id,
+        aula.titulo,
+        aula.descricao,
+        aula.tipo,
+    )
+    if not linhas_afetadas:
+        raise HTTPException(status_code=404, detail="Aula não encontrado")
+    return {"status": "ok"}
+
+
