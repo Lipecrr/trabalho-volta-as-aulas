@@ -34,7 +34,6 @@ from src.repositorios import (
     fjvcursos_progresso_repositorio
     )
 
-
 app = FastAPI()
 
 app.add_middleware(
@@ -93,7 +92,7 @@ def listar_aluno(id: int, db: Session = Depends(get_db)):
 #Curso
 @app.post("/api/v1/cursos", tags=["Cursos"])
 def cadastrar_curso(curso: CursoCriar, db: Session = Depends(get_db)):
-    aluno = fjvcursos_curso_repositorio.cadastrar(
+    curso = fjvcursos_curso_repositorio.cadastrar(
         db,
         curso.titulo,
         curso.descricao,
@@ -118,7 +117,7 @@ def apagar_curso(id: int, db: Session = Depends(get_db)):
     return {"status":"ok"}
 
 
-@app.put("/api/v1/cursos{id}", tags=["Cursos"])
+@app.put("/api/v1/cursos/{id}", tags=["Cursos"])
 def editar_curso(id: int, curso: CursoEditar, db: Session = Depends(get_db)):
     linhas_afetadas = fjvcursos_curso_repositorio.editar(
         db,
