@@ -267,3 +267,43 @@ def editar_modulo(id: int, aula: AulaEditar, db: Session = Depends(get_db)):
     return {"status": "ok"}
 
 
+## Matricula
+@app.post("/api/v1/matriculas", tags=["Matriculas"])
+def cadastrar_matricula(matricula: MatriculaCriar, db: Session = Depends(get_db)):
+    matricula = fjvcursos_matricula_repositorio.cadastrar(
+        db,
+        matricula.aluno_id,
+        matricula.curso_id,
+        matricula.data_matricula,
+        matricula.status,
+    )
+    return matricula
+
+
+@app.get("/api/v1/matriculas", tags=["Matriculas"])
+def listar_matriculas(db: Session = Depends(get_db)):
+    matriculas = fjvcursos_matricula_repositorio.obter_todos(db)
+    return matriculas
+
+
+@app.delete("/api/v1/matriculas/{id}", tags=["Matriculas"])
+def apagar_matricula(id: int, db: Session = Depends(get_db)):
+    linhas_afetadas = fjvcursos_matricula_repositorio.apagar(db, id)
+    if not linhas_afetadas:
+        raise HTTPException(status_code=404, detail="Matricula não encontrado")
+    return {"status:", "ok"}
+
+
+@app.put("/api/v1/matriculas/{id}", tags=["Matriculas"])
+def editar_matricula(id: int, matricula: MatriculaEditar, db: Session = Depends(get_db)):
+    linhas_afetadas = fjvcursos_matricula_repositorio.editar(
+        db,
+        id,
+        matricula.aluno_id,
+        matricula.curso_id,
+        matricula.data_matricula,
+        matricula.status,
+    )
+    if not linhas_afetadas:
+        raise HTTPException(status_code=404, detail="Matricula não encontrado")
+    return {"status": "ok"}
