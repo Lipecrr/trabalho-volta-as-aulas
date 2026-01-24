@@ -58,7 +58,7 @@ def cadastrar_aluno(aluno: AlunoCriar, db: Session = Depends(get_db)):
 
 
 @app.get("/api/v1/alunos", tags=["Alunos"])
-def listar_cliente(db: Session = Depends(get_db)):
+def listar_alunos(db: Session = Depends(get_db)):
     alunos = fjvcursos_aluno_repositorio.obter_todos(db)
     return alunos
 
@@ -225,6 +225,13 @@ def editar_modulo(id: int, modulo: ModuloEditar, db: Session = Depends(get_db)):
     return {"status": "ok"}
 
 
+@app.get("/api/v1/modulos/{id}", tags=["Modulos"])
+def listar_modulo(id: int, db: Session = Depends(get_db)):
+    modulo = fjvcursos_modulo_repositorio.obter_por_id(db, id)
+    if not modulo:
+        raise HTTPException(status_code=404, detail="Modulo não encontrado")
+    return modulo
+
 ## Aula
 @app.post("/api/v1/aulas", tags=["Aulas"])
 def cadastar_aula(aula: AulaCriar, db: Session = Depends(get_db)):
@@ -267,6 +274,13 @@ def editar_modulo(id: int, aula: AulaEditar, db: Session = Depends(get_db)):
     return {"status": "ok"}
 
 
+@app.get("/api/v1/aulas/{id}", tags=["Aulas"])
+def listar_aula(id: int, db: Session = Depends(get_db)):
+    aula = fjvcursos_aula_repositorio.obter_por_id(db, id)
+    if not aula:
+        raise HTTPException(status_code=404, detail="Aula não encontrado")
+    return aula
+
 ## Matricula
 @app.post("/api/v1/matriculas", tags=["Matriculas"])
 def cadastrar_matricula(matricula: MatriculaCriar, db: Session = Depends(get_db)):
@@ -307,3 +321,61 @@ def editar_matricula(id: int, matricula: MatriculaEditar, db: Session = Depends(
     if not linhas_afetadas:
         raise HTTPException(status_code=404, detail="Matricula não encontrado")
     return {"status": "ok"}
+
+
+@app.get("/api/v1/matriculas/{id}", tags=["Matriculas"])
+def listar_matricula(id: int, db: Session = Depends(get_db)):
+    matricula = fjvcursos_matricula_repositorio.obter_por_id(db, id)
+    if not matricula:
+        raise HTTPException(status_code=404, detail="Matricula não encontrado")
+    return matricula
+
+
+## Progresso
+@app.post("/api/v1/progressos", tags=["Progressos"])
+def cadastar_progresso(progresso: ProgressoCriar, db: Session = Depends(get_db)):
+    progresso = fjvcursos_progresso_repositorio.cadastrar(
+        db,
+        progresso.matricula_id,
+        progresso.aula_id,
+        progresso.concluido,
+        progresso.data_concusao,    
+    )
+    return progresso
+
+
+@app.get("/api/v1/progressos", tags=["Progressos"])
+def listar_progressos(db: Session = Depends(get_db)):
+    progressos = fjvcursos_matricula_repositorio.obter_todos(db)
+    return progressos
+
+
+@app.delete("/api/v1/progressos/{id}", tags=["Progressos"])
+def apagar_progresso(id: int, db: Session = Depends(get_db)):
+    linhas_afetadas = fjvcursos_progresso_repositorio.apagar(db, id)
+    if not linhas_afetadas:
+        raise HTTPException(status_code=404, detail="Progresso não encontrado")
+    return {"status:", "ok"}
+
+
+@app.put("/api/v1/progressos/{id}", tags=["Progressos"])
+def editar_progresso(id: int, progresso: ProgressoEditar, db: Session = Depends(get_db)):
+    linhas_afetadas = fjvcursos_progresso_repositorio.editar(
+        db,
+        id,
+        progresso.matricula_id,
+        progresso.aula_id,
+        progresso.concluido,
+        progresso.data_concusao,
+    )
+    if not linhas_afetadas:
+        raise HTTPException(status_code=404, detail="Progresso não encontrado")
+    return {"status": "ok"}
+
+
+@app.get("/api/v1/progresso/{id}", tags=["Progresso"])
+def listar_progresso(id: int, db: Session = Depends(get_db)):
+    progresso = fjvcursos_progresso_repositorio.obter_por_id(db, id)
+    if not progresso:
+        raise HTTPException(status_code=404, detail="Progresso não encontrado")
+    return progresso
