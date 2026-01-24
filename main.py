@@ -379,3 +379,95 @@ def listar_progresso(id: int, db: Session = Depends(get_db)):
     if not progresso:
         raise HTTPException(status_code=404, detail="Progresso não encontrado")
     return progresso
+
+
+## Avaliacao
+@app.post("/api/v1/avaliacao", tags=["Avaliacoes"])
+def cadastrar_avaliacao(avaliacao: AvaliacaoCriar, db: Session = Depends(get_db)):
+    avaliacao = fjvcursos_avaliacao_repositorio.cadastrar(
+        db,
+        avaliacao.curso_id,
+        avaliacao.aluno_id,
+        avaliacao.nota,
+        avaliacao.comentario,
+    )
+    return avaliacao
+
+
+@app.get("/api/v1/avaliacoes", tags=["Avaliacoes"])
+def listar_avaliacoes(db: Session = Depends(get_db)):
+    avaliacoes = fjvcursos_avaliacao_repositorio.obter_todos(db)
+    return avaliacoes
+
+
+@app.delete("/api/v1/avaliacoes/{id}", tags=["Avaliacoes"])
+def apagar_avaliacao(id: int, db: Session = Depends(get_db)):
+    linhas_afetadas = fjvcursos_avaliacao_repositorio.apagar(db, id)
+    if not linhas_afetadas:
+        raise HTTPException(status_code=404, detail="Avaliacao não encontrado")
+    return {"status:", "ok"}
+
+
+@app.put("/api/v1/avaliacoes/{id}", tags=["Avaliacoes"])
+def editar_avaliacao(id: int, avaliacao: AvaliacaoEditar, db: Session = Depends(get_db)):
+    linhas_afetadas = fjvcursos_avaliacao_repositorio.editar(
+        db,
+        id,
+        avaliacao.curso_id,
+        avaliacao.aluno_id,
+        avaliacao.nota,
+        avaliacao.comentario,
+    )
+    if not linhas_afetadas:
+        raise HTTPException(status_code=404, detail="Avaliação não encontrado")
+    return {"status": "ok"}
+
+
+@app.get("/api/v1/avaliacao/{id}", tags=["Avaliação"])
+def listar_avaliacao(id: int, db: Session = Depends(get_db)):
+    avaliacao = fjvcursos_avaliacao_repositorio.obter_por_id(db, id)
+    if not avaliacao:
+        raise HTTPException(status_code=404, detail="Avaliação não encontrado")
+    return avaliacao
+
+
+## Certificado
+@app.post("/api/v1/certificado", tags=["Certificados"])
+def cadastrar_certificado(certificado: CertificadoCriar, db: Session = Depends(get_db)):
+    certificado = fjvcursos_certificado_repositorio.cadastrar(
+        db,
+        certificado.aluno_id,
+        certificado.matricula_id,
+        certificado.data_emissao,
+        certificado.codico_validacao,
+    )
+    return certificado
+
+
+@app.get("/api/v1/certificados", tags=["Certificados"])
+def listar_certificados(db: Session = Depends(get_db)):
+    certificados = fjvcursos_certificado_repositorio.obter_todos(db)
+    return certificados
+
+
+@app.delete("/api/v1/certificados/{id}", tags=["Certificados"])
+def apagar_certificado(id: int, db: Session = Depends(get_db)):
+    linhas_afetadas = fjvcursos_certificado_repositorio.apagar(db, id)
+    if not linhas_afetadas:
+        raise HTTPException(status_code=404, detail="Certificado não encontrado")
+    return {"status:", "ok"}
+
+
+@app.put("/api/v1/certificados/{id}", tags=["Certificados"])
+def editar_certificado(id: int, certificado: CertificadoCriar, db: Session = Depends(get_db)):
+    linhas_afetadas = fjvcursos_certificado_repositorio.editar(
+        db,
+        id,
+        certificado.aluno_id,
+        certificado.matricula_id,
+        certificado.data_emissao,
+        certificado.codico_validacao,
+    )
+    if not linhas_afetadas:
+        raise HTTPException(status_code=404, detail="Certificado não encontrado")
+    return {"status": "ok"}
