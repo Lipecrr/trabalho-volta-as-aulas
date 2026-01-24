@@ -89,6 +89,7 @@ def listar_aluno(id: int, db: Session = Depends(get_db)):
     return aluno
     
 
+#Curso
 @app.post("/api/v1/cursos", tags=["Cursos"])
 def cadastrar_curso(curso: CursoCriar, db: Session = Depends(get_db)):
     curso = fjvcursos_curso_repositorio.cadastrar(
@@ -183,5 +184,44 @@ def listar_professor(id: int, db: Session = Depends(get_db)):
     if not professor:
         raise HTTPException(status_code=404, detail="Professor não encontrado")
     return professor
+
+
+
+## Modulo
+@app.post("/api/v1/modulos", tags=["Modulos"])
+def cadastrar_modulo(modulo: ModuloCriar, db: Session = Depends(get_db)):
+    modulo = fjvcursos_modulo_repositorio.cadastrar(
+        db,
+        modulo.curso_id,
+        modulo.titulo
+    )
+    return modulo
+
+
+@app.get("/api/v1/modulos", tags=["Modulos"])
+def listar_modulos(db: Session = Depends(get_db)):
+    modulos = fjvcursos_modulo_repositorio.obter_todos(db)
+    return modulos
+
+
+@app.delete("/api/v1/modulos/{id}", tags=["Modulos"])
+def apagar_modulo(id: int, db: Session = Depends(get_db)):
+    linhas_afetadas = fjvcursos_modulo_repositorio.apagar(db, id)
+    if not linhas_afetadas:
+        raise HTTPException(status_code=404, detail="Modulo não encontrado")
+    return {"status:", "ok"}
+
+
+@app.put("/api/v1/modulos/{id}", tags=["Modulos"])
+def editar_modulo(id: int, modulo: ModuloEditar, db: Session = Depends(get_db)):
+    linhas_afetadas = fjvcursos_modulo_repositorio.editar(
+        db,
+        id,
+        modulo.curso_id,
+        modulo.titulo,
+    )
+    if not linhas_afetadas:
+        raise HTTPException(status_code=404, detail="Modulo não encontrado")
+    return {"status": "ok"}
 
 
