@@ -1,4 +1,4 @@
-create database if not exists fjvcursos;
+create database fjvcursos;
 use fjvcursos;
 
 CREATE TABLE alunos (
@@ -81,7 +81,4 @@ CREATE TABLE certificados (
     FOREIGN KEY (aluno_id) REFERENCES alunos(id),
     FOREIGN KEY (matricula_id) REFERENCES matriculas(id)
 );
-
-SELECT * from alunos
-
 
