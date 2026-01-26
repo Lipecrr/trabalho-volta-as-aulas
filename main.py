@@ -20,7 +20,7 @@ from classes import (
     AvaliacaoCriar,
     AvaliacaoEditar,
     CertificadoCriar,
-    CertificadoEditar,
+    CertificadoEditar
 )
 from src.repositorios import (
     fjvcursos_aluno_repositorio,
@@ -209,7 +209,7 @@ def apagar_modulo(id: int, db: Session = Depends(get_db)):
     linhas_afetadas = fjvcursos_modulo_repositorio.apagar(db, id)
     if not linhas_afetadas:
         raise HTTPException(status_code=404, detail="Modulo não encontrado")
-    return {"status:", "ok"}
+    return {"status": "ok"}
 
 
 @app.put("/api/v1/modulos/{id}", tags=["Modulos"])
@@ -260,7 +260,7 @@ def apagar_aula(id: int, db: Session = Depends(get_db)):
 
 
 @app.put("/api/v1/aulas/{id}", tags=["Aulas"])
-def editar_modulo(id: int, aula: AulaEditar, db: Session = Depends(get_db)):
+def editar_aula(id: int, aula: AulaEditar, db: Session = Depends(get_db)):
     linhas_afetadas = fjvcursos_aula_repositorio.editar(
         db,
         id,
@@ -305,7 +305,7 @@ def apagar_matricula(id: int, db: Session = Depends(get_db)):
     linhas_afetadas = fjvcursos_matricula_repositorio.apagar(db, id)
     if not linhas_afetadas:
         raise HTTPException(status_code=404, detail="Matricula não encontrado")
-    return {"status:", "ok"}
+    return {"status": "ok"}
 
 
 @app.put("/api/v1/matriculas/{id}", tags=["Matriculas"])
@@ -339,7 +339,7 @@ def cadastar_progresso(progresso: ProgressoCriar, db: Session = Depends(get_db))
         progresso.matricula_id,
         progresso.aula_id,
         progresso.concluido,
-        progresso.data_concusao,    
+        progresso.data_conclusao    
     )
     return progresso
 
@@ -355,7 +355,7 @@ def apagar_progresso(id: int, db: Session = Depends(get_db)):
     linhas_afetadas = fjvcursos_progresso_repositorio.apagar(db, id)
     if not linhas_afetadas:
         raise HTTPException(status_code=404, detail="Progresso não encontrado")
-    return {"status:", "ok"}
+    return {"status": "ok"}
 
 
 @app.put("/api/v1/progressos/{id}", tags=["Progressos"])
@@ -366,7 +366,7 @@ def editar_progresso(id: int, progresso: ProgressoEditar, db: Session = Depends(
         progresso.matricula_id,
         progresso.aula_id,
         progresso.concluido,
-        progresso.data_concusao,
+        progresso.data_conclusao,
     )
     if not linhas_afetadas:
         raise HTTPException(status_code=404, detail="Progresso não encontrado")
@@ -405,7 +405,7 @@ def apagar_avaliacao(id: int, db: Session = Depends(get_db)):
     linhas_afetadas = fjvcursos_avaliacao_repositorio.apagar(db, id)
     if not linhas_afetadas:
         raise HTTPException(status_code=404, detail="Avaliacao não encontrado")
-    return {"status:", "ok"}
+    return {"status": "ok"}
 
 
 @app.put("/api/v1/avaliacoes/{id}", tags=["Avaliacoes"])
@@ -439,7 +439,7 @@ def cadastrar_certificado(certificado: CertificadoCriar, db: Session = Depends(g
         certificado.aluno_id,
         certificado.matricula_id,
         certificado.data_emissao,
-        certificado.codico_validacao,
+        certificado.codigo_validacao,
     )
     return certificado
 
@@ -455,7 +455,7 @@ def apagar_certificado(id: int, db: Session = Depends(get_db)):
     linhas_afetadas = fjvcursos_certificado_repositorio.apagar(db, id)
     if not linhas_afetadas:
         raise HTTPException(status_code=404, detail="Certificado não encontrado")
-    return {"status:", "ok"}
+    return {"status": "ok"}
 
 
 @app.put("/api/v1/certificados/{id}", tags=["Certificados"])
@@ -466,7 +466,7 @@ def editar_certificado(id: int, certificado: CertificadoCriar, db: Session = Dep
         certificado.aluno_id,
         certificado.matricula_id,
         certificado.data_emissao,
-        certificado.codico_validacao,
+        certificado.codigo_validacao,
     )
     if not linhas_afetadas:
         raise HTTPException(status_code=404, detail="Certificado não encontrado")

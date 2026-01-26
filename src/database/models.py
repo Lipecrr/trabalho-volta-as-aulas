@@ -11,8 +11,6 @@ class Aluno(Base):
     telefone = Column(String(20))
     data_nascimento = Column(Date)
 
-    matricula = relationship("Matricula", back_populates="aluno")
-
 
 class Professor(Base):
     __tablename__ = "professores"

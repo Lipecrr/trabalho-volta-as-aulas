@@ -6,7 +6,7 @@ def cadastrar(db: Session, nome: str, telefone: str, data_nascimento: date):
     aluno = Aluno(
         nome=nome,
         telefone=telefone,
-        data_nascimento=data_nascimento)
+        data_nascimento=data_nascimento)    
     db.add(aluno)
     db.commit()
     db.refresh(aluno)
