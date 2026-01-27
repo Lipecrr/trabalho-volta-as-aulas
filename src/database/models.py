@@ -6,10 +6,21 @@ Base = declarative_base()
 
 class Aluno(Base):
     __tablename__ = "alunos"
+
     id = Column(Integer, primary_key=True, index=True)
     nome = Column(String(50))
     telefone = Column(String(20))
     data_nascimento = Column(Date)
+
+    matriculas = relationship(
+        "Matricula",
+        back_populates="aluno"
+    )
+
+    avaliacoes = relationship(
+        "Avaliacao",
+        back_populates="aluno"
+    )
 
 
 class Professor(Base):
@@ -36,8 +47,8 @@ class Curso(Base):
 
     professor = relationship("Professor", back_populates="cursos")
     modulos = relationship("Modulo", back_populates="curso")
-    matriculas = relationship("Matricula", back_populates="curso")
-    avaliacoes = relationship("Avaliacao", back_populates="curso")
+    # matriculas = relationship("Matricula", back_populates="curso")
+    # avaliacoes = relationship("Avaliacao", back_populates="curso")
 
 
 class Modulo(Base):
@@ -102,6 +113,7 @@ class Avaliacao(Base):
     comentario = Column(String(500))
 
     curso = relationship("Curso", back_populates="avaliacoes")
+    aluno = relationship("Aluno", back_populates="avaliacoes")
 
 
 class Certificado(Base):
